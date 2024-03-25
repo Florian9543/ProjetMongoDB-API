@@ -5,6 +5,7 @@ const Challenge = require('../models/challenge');
 exports.getRandomChallenge = async (req, res) => {
   // Implémenter la logique pour récupérer un défi aléatoire
   const randomChallenge = await Challenge.aggregate([{ $sample: { size: 1 } }]);
+  console.log(randomChallenge)
   res.status(200).json(randomChallenge[0]);
   
 };
