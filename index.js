@@ -18,7 +18,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 
     
     app.listen(PORT, () => {
-      console.log(`Server is running on port https://localhost:${PORT}`);
+      console.log(`Server is running on port http://localhost:${PORT}`);
     });
   })
   .catch(err => console.error('Error connecting to MongoDB:', err));
