@@ -2,10 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const { bodyParserMiddleware } = require('../middleware/bodyparser');
 
-// Définir les routes pour l'authentification
-router.get('/login', authController.getLoginForm);
-router.post('/login', bodyParserMiddleware, authController.login);
+// Définir la route pour l'authentification via les paramètres d'URL
+router.get('/login/:email/:password', authController.loginViaURL);
 
 module.exports = router;

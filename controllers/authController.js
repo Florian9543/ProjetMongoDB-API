@@ -7,34 +7,9 @@ const generateToken = (user) => {
   return jwt.sign(user, config.secretKey); // Use secretKey instead of secret
 };
 
-// Renvoyer le formulaire de connexion HTML
-exports.getLoginForm = (req, res) => {
-  const formHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Connexion</title>
-    </head>
-    <body>
-      <h1>Connexion</h1>
-      <form action="/auth/login" method="post">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="password">Mot de passe:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Se connecter">
-      </form>
-    </body>
-    </html>
-  `;
-  res.send(formHTML);
-};
-
-// Fonction de connexion
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
+// Fonction de connexion via paramètres d'URL
+exports.loginViaURL = async (req, res) => {
+  const { email, password } = req.params;
   // Vérification de l'email et du mot de passe (c'est juste un exemple, vous devrez adapter cela à votre propre logique d'authentification)
   if (email === 'test@gmail.com' && password === 'password') {
     // Création de l'objet utilisateur avec le rôle d'administrateur (vous devez définir votre propre logique pour récupérer les informations utilisateur)
@@ -54,5 +29,3 @@ exports.login = async (req, res) => {
     res.status(401).json({ message: 'Email ou mot de passe incorrect' });
   }
 };
-
-
