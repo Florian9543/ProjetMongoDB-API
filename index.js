@@ -6,7 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = 'votre_url_de_connexion_mongodb';
+const MONGODB_URI = 'mongodb+srv://admin:fqDbVdyf9uqOB0v0@databaseapieco.ekieskk.mongodb.net/?retryWrites=true&w=majority&appName=DatabaseApiEco';
 
 app.use(express.json());
 app.use('/challenges', challengeRoutes);
