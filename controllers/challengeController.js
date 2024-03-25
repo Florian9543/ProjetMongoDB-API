@@ -4,8 +4,8 @@ const Challenge = require('../models/challenge');
 // Définir les fonctions de contrôle pour les défis
 exports.getRandomChallenge = async (req, res) => {
   // Implémenter la logique pour récupérer un défi aléatoire
-  const challenge = await Challenge.findOneRandom();
-  res.status(200).json(challenge);
+  const randomChallenge = await Challenge.aggregate([{ $sample: { size: 1 } }]);
+  res.status(200).json(randomChallenge[0]);
   
 };
 
@@ -20,7 +20,7 @@ exports.createChallenge = async (req, res) => {
   const challenge = new Challenge(req.body);
   await challenge.save();
   res.status(201).json(challenge);
-
+  console.log("Challenge créé")
 };
 
 exports.updateChallenge = async (req, res) => {

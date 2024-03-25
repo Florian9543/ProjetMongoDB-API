@@ -10,9 +10,8 @@ const challengeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // Autres champs pour les défis
 });
 
-const Challenge = mongoose.model('Challenge', challengeSchema);
+const Challenge = mongoose.model('DefisEcos', challengeSchema);
 
 module.exports = Challenge;
