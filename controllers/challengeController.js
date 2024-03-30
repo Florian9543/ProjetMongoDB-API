@@ -43,11 +43,16 @@ exports.updateChallenge = async (req, res) => {
 
 exports.deleteChallenge = async (req, res) => {
   const { titre } = req.params;
-  const deletedChallenge = await Challenge.findOneAndDelete({ titre: titre });
-  
-  if (!deletedChallenge) {
-    return res.status(404).json({ message: "Défi non trouvé" });
+  try {
+    const deletedChallenge = await Challenge.findOneAndDelete({ titre: titre });
+    console.log(deletedChallenge);
+    if (!deletedChallenge) {
+      return res.status(404).json({ message: "Défi non trouvé" });
+    }
+    res.status(204).json({ message: "Défi supprimé avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la suppression du défi :", error);
+    res.status(500).json({ message: "Erreur lors de la suppression du défi" });
   }
-  
-  res.status(204).send();
 };
+
