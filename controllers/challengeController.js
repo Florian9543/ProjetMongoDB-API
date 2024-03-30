@@ -21,13 +21,33 @@ exports.createChallenge = async (req, res) => {
 };
 
 exports.updateChallenge = async (req, res) => {
-  const { id } = req.params;
-  const challenge = await Challenge.findByIdAndUpdate(id, req.body)
-  res.status(200).json(challenge);
+  const { titre, nouveauTitre, nouvelleDescription } = req.params;
+
+  try {
+    const updatedChallenge = await Challenge.findOneAndUpdate(
+      { titre: titre },
+      { titre: nouveauTitre, description: nouvelleDescription },
+      { new: true }
+    );
+
+    if (!updatedChallenge) {
+      return res.status(404).json({ message: "Défi non trouvé" });
+    }
+
+    res.status(200).json(updatedChallenge);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur lors de la mise à jour du défi" });
+  }
 };
 
 exports.deleteChallenge = async (req, res) => {
-  const { id } = req.params;
-  await Challenge.findByIdAndDelete(id);
+  const { titre } = req.params;
+  const deletedChallenge = await Challenge.findOneAndDelete({ titre: titre });
+  
+  if (!deletedChallenge) {
+    return res.status(404).json({ message: "Défi non trouvé" });
+  }
+  
   res.status(204).send();
 };
