@@ -1,19 +1,28 @@
 // controllers/challengeController.js
 const Challenge = require('../models/challenge');
 
+const maxsize = 100;
+
 // Définir les fonctions de contrôle pour les défis
 exports.getRandomChallenge = async (req, res) => {
   // Implémenter la logique pour récupérer un défi aléatoire
   const randomChallenge = await Challenge.aggregate([{ $sample: { size: 1 } }]);
   console.log(randomChallenge)
-  res.status(200).json(randomChallenge[0]);
+  res.status(200).json(randomChallenge);
   
 };
 
 exports.getMultipleRandomChallenges = async (req, res) => {
   // Implémenter la logique pour récupérer plusieurs défis aléatoires
-  const challenges = await Challenge.findRandom();
-  res.status(200).json(challenges);
+  var { nb } = (req.params);
+  nb = parseInt(nb);
+  if (nb > maxsize)
+  {
+    nb = maxsize;
+  }
+  
+  const randomChallenge = await Challenge.aggregate([{ $sample: { size: nb } }]);
+  res.status(200).json(randomChallenge);
 };
 
 exports.createChallenge = async (req, res) => {
