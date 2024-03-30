@@ -9,8 +9,7 @@ const { bodyParserMiddleware } = require('../middleware/bodyparser');
 // Définir les routes pour les défis
 router.get('/', challengeController.getRandomChallenge);
 router.get('/multiple', challengeController.getMultipleRandomChallenges);
-router.get('/create', authMiddleware, challengeController.getCreateForm);
-router.post('/create', bodyParserMiddleware, authMiddleware, challengeController.createChallenge);
+router.get('/create/:title/:description', authMiddleware, challengeController.createChallenge);
 router.put('/:id', authMiddleware, challengeController.updateChallenge);
 router.delete('/:id', authMiddleware, challengeController.deleteChallenge);
 

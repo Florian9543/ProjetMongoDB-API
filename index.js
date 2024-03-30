@@ -14,8 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/challenges', challengeRoutes);
 app.use('/auth', authRoutes);
-// Middleware pour parser les données de formulaire
-
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

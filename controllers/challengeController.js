@@ -11,38 +11,13 @@ exports.getMultipleRandomChallenges = async (req, res) => {
   res.status(200).json(challenges);
 };
 
-// Renvoyer le formulaire HTML pour créer un défi
-exports.getCreateForm = async (req, res) => {
-  const formHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Créer un défi</title>
-    </head>
-    <body>
-      <h1>Créer un défi</h1>
-      <form action="/challenges/create" method="post">
-        <label for="title">Titre du défi:</label><br>
-        <input type="text" id="title" name="title" required><br>
-        <label for="description">Description du défi:</label><br>
-        <textarea id="description" name="description" required></textarea><br><br>
-        <input type="submit" value="Créer le défi">
-      </form>
-    </body>
-    </html>
-  `;
-  res.send(formHTML);
-};
-
-// Créer un défi
+// Créer un défi, en récupérant le titre et la description dans l'URL avec des / séparés
 exports.createChallenge = async (req, res) => {
-  const { title, description } = req.body;
-  const challenge = new Challenge({ title, description });
-  await challenge.save();
+  const { title, description } = req.params;
+  console.log(title, description);
+  const challenge = await Challenge.create({ titre: title, description: description });
   res.status(201).json(challenge);
-  console.log("Challenge créé");
+  console.log("Challenge created");
 };
 
 exports.updateChallenge = async (req, res) => {
