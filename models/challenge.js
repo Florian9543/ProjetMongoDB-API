@@ -10,7 +10,8 @@ const challengeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-});
+}, { versionKey: false });
+
 
 const Challenge = mongoose.model('DefisEcos', challengeSchema);
 
