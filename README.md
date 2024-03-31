@@ -4,7 +4,7 @@
  
  BUT Informatique - 2ème Année
  
- Ressource R4.03 - Qualité et non relationnel
+ Ressource R4.03 - Qualité et au-delà du relationnel
 
 Pour le lancement, il faut installer les node-modules ainsi que mongoose, puis exécuter la commande npm run dev.
 
