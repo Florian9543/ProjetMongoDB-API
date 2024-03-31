@@ -6,9 +6,10 @@ const challengeController = require('../controllers/challengeController');
 
 // Définir les routes pour les défis
 router.get('/', challengeController.getRandomChallenge);
+
 router.get('/multiple/:nb', challengeController.getMultipleRandomChallenges);
-router.post('/create', authMiddleware, challengeController.createChallenge);
-router.put('/:id', authMiddleware, challengeController.updateChallenge);
-router.delete('/:id', authMiddleware, challengeController.deleteChallenge);
+router.get('/create/:title/:description', authMiddleware, challengeController.createChallenge);
+router.get('/update/:titre/:nouveauTitre/:nouvelleDescription', authMiddleware, challengeController.updateChallenge);
+router.get('/delete/:titre', authMiddleware, challengeController.deleteChallenge);
 
 module.exports = router;

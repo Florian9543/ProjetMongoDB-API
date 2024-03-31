@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const challengeSchema = new mongoose.Schema({
-  title: {
+  titre: {
     type: String,
     required: true
   },
@@ -10,7 +10,8 @@ const challengeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-});
+}, { versionKey: false });
+
 
 const Challenge = mongoose.model('DefisEcos', challengeSchema);
 

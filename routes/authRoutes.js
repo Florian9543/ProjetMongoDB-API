@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// Définir les routes pour l'authentification
-router.post('/login', authController.login);
+// Définir la route pour l'authentification via les paramètres d'URL
+router.get('/login/:email/:password', authController.loginViaURL);
 
 module.exports = router;

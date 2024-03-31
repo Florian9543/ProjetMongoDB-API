@@ -5,15 +5,12 @@ const maxsize = 100;
 
 // Définir les fonctions de contrôle pour les défis
 exports.getRandomChallenge = async (req, res) => {
-  // Implémenter la logique pour récupérer un défi aléatoire
   const randomChallenge = await Challenge.aggregate([{ $sample: { size: 1 } }]);
-  console.log(randomChallenge)
-  res.status(200).json(randomChallenge);
-  
+  console.log(randomChallenge);
+  res.status(200).json(randomChallenge[0]);
 };
 
 exports.getMultipleRandomChallenges = async (req, res) => {
-  // Implémenter la logique pour récupérer plusieurs défis aléatoires
   var { nb } = (req.params);
   nb = parseInt(nb);
   if (nb > maxsize)
@@ -25,24 +22,48 @@ exports.getMultipleRandomChallenges = async (req, res) => {
   res.status(200).json(randomChallenge);
 };
 
+// Créer un défi, en récupérant le titre et la description dans l'URL avec des / séparés
 exports.createChallenge = async (req, res) => {
-  // Implémenter la logique pour créer un défi
-  const challenge = new Challenge(req.body);
-  await challenge.save();
+  const { title, description } = req.params;
+  console.log(title, description);
+  const challenge = await Challenge.create({ titre: title, description: description });
   res.status(201).json(challenge);
-  console.log("Challenge créé")
+  console.log("Challenge created");
 };
 
 exports.updateChallenge = async (req, res) => {
-  // Implémenter la logique pour mettre à jour un défi
-  const { id } = req.params;
-  const challenge = await Challenge.findByIdAndUpdate(id, req.body)
-  res.status(200).json(challenge);
+  const { titre, nouveauTitre, nouvelleDescription } = req.params;
+
+  try {
+    const updatedChallenge = await Challenge.findOneAndUpdate(
+      { titre: titre },
+      { titre: nouveauTitre, description: nouvelleDescription },
+      { new: true }
+    );
+
+    if (!updatedChallenge) {
+      return res.status(404).json({ message: "Défi non trouvé" });
+    }
+
+    res.status(200).json(updatedChallenge);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur lors de la mise à jour du défi" });
+  }
 };
 
 exports.deleteChallenge = async (req, res) => {
-  // Implémenter la logique pour supprimer un défi
-  const { id } = req.params;
-  await Challenge.findByIdAndDelete(id);
-  res.status(204).send();
+  const { titre } = req.params;
+  try {
+    const deletedChallenge = await Challenge.findOneAndDelete({ titre: titre });
+    console.log(deletedChallenge);
+    if (!deletedChallenge) {
+      return res.status(404).json({ message: "Défi non trouvé" });
+    }
+    res.status(204).json({ message: "Défi supprimé avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la suppression du défi :", error);
+    res.status(500).json({ message: "Erreur lors de la suppression du défi" });
+  }
 };
+
